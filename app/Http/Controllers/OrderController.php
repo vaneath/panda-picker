@@ -9,8 +9,17 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::orderBy("created_at","desc")->paginate(10);
+        return view('dashboard');
+    }
 
-        return view('dashboard', compact('orders'));
+    public function updateStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => ['required'],
+        ]);
+
+        $order->update(['order_status' => $request->status]);
+
+        return response()->json(['success' => true]);
     }
 }
