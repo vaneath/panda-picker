@@ -1,4 +1,4 @@
-<div class="overflow-x-auto">
+<div class="overflow-x-auto space-y-24">
     <table class="table-auto w-full mb-6">
         <thead class="text-md font-semibold uppercase text-gray-400 bg-gray-50">
             <tr>
@@ -65,6 +65,5 @@
             @endforeach
         </tbody>
     </table>
-
     {{ $orders->links() }}
 </div>

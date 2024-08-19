@@ -4,11 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', [OrderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [OrderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus']);
 Route::resource('/orders', OrderController::class);

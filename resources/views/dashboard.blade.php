@@ -6,9 +6,7 @@
     </x-slot>
 
     <!-- component -->
-    <section class="antialiased bg-gray-100 text-gray-600 h-screen mt-6 ">
-        <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-8">
-            <x-order-table />
-        </div>
-    </section>
+    <div class="w-full mx-auto bg-white rounded-sm border-t border-gray-200 p-8">
+        <x-order-table />
+    </div>
 </x-app-layout>
