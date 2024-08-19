@@ -111,7 +111,20 @@
 
     document.getElementById('order-summary').addEventListener('change', function(event) {
         const file = event.target.files[0];
+        const maxSize = 2048 * 1024; // 2 MB in bytes
+
         if (file) {
+            if (file.size > maxSize) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'The file size exceeds the  MB limit.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#fa2a80'
+                });
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const fileUploadDiv = document.getElementById('file-upload');
