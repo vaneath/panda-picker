@@ -30,7 +30,8 @@
                         title: 'Success!',
                         text: 'Order status updated successfully',
                         icon: 'success',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: "#fa2a80",
                     });
                 } else {
                     Swal.fire({
