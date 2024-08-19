@@ -5,17 +5,22 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-
 use App\Models\Order;
 
 class OrderTable extends Component
 {
+    public $orderStatus;
+    public $search;
+    public $sortOrder;
+
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        //
+        $this->orderStatus = request()->input('order_status');
+        $this->search = request()->input('search');
+        $this->sortOrder = request()->input('sort_order', 'asc'); // Default to ascending order
     }
 
     /**
@@ -23,7 +28,28 @@ class OrderTable extends Component
      */
     public function render(): View|Closure|string
     {
-        $orders = Order::orderBy("created_at")->paginate(10);
+        $query = Order::query();
+
+        if ($this->orderStatus) {
+            $query->where('order_status', $this->orderStatus);
+        }
+
+        if ($this->search) {
+            $searchTerm = "%{$this->search}%";
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('customer_name', 'like', $searchTerm)
+                  ->orWhere('order_number', 'like', $searchTerm)
+                  ->orWhere('customer_phone_number', 'like', $searchTerm);
+            });
+        }
+
+        $orders = $query->orderBy('created_at', $this->sortOrder)->paginate(10);
+
+        $orders->appends([
+            'order_status' => $this->orderStatus,
+            'search' => $this->search,
+            'sort_order' => $this->sortOrder,
+        ]);
 
         return view('components.order-table', compact('orders'));
     }
