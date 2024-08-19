@@ -9,9 +9,12 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+        $orderStatus = $request->input('order_status');
+        $search = $request->input('search');
+
+        return view('dashboard', compact('orderStatus', 'search'));
     }
 
     public function create()

@@ -1,12 +1,17 @@
 @props(['order'])
 
 <!-- resources/views/components/order-status-dropdown.blade.php -->
-<div x-data="{ status: '{{ $order->order_status }}' }" class="text-center">
-    <select x-model="status" @change="updateStatus('{{ $order->id }}', status)"
-        class="form-select bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+<div x-data="{
+    status: '{{ $order->order_status }}',
+    getStatusClass() {
+        return this.status === 'done' ? 'bg-green-500 text-white' : (this.status === 'preparing' ? 'bg-yellow-500 text-white' : 'bg-gray-500 text-white');
+    }
+}" class="text-center">
+    <select x-model="status" @change="updateStatus('{{ $order->id }}', status)" :class="getStatusClass()"
+        class="form-select border border-gray-300 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500">
         @foreach (\App\Enums\OrderStatusEnum::cases() as $status)
             <option value="{{ $status->value }}" {{ $order->order_status === $status->value ? 'selected' : '' }}>
-                {{ $status->value }}
+                {{ ucfirst($status->value) }}
             </option>
         @endforeach
     </select>
@@ -42,15 +47,6 @@
                         confirmButtonText: 'OK'
                     });
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'An error occurred while updating the order status',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
             });
     }
 </script>
