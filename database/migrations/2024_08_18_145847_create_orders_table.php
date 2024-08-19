@@ -23,6 +23,7 @@ return new class extends Migration
                 OrderStatusEnum::PREPARING->value,
                 OrderStatusEnum::DONE->value
             ])->default(OrderStatusEnum::WAITING->value);
+            $table->string('order_summary')->nullable();
             $table->integer('floor');
             $table->timestamps();
         });

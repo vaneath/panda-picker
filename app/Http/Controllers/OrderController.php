@@ -24,15 +24,20 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $attributes = $request->validate([
             'order_number' => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
             'customer_phone_number' => 'required|string|max:255',
             'floor' => 'required|integer|min:1|max:50',
             'customer_chat_id' => 'nullable|string|max:255',
+            'order_summary' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Order::create($validated);
+        if ($request->hasFile('order_summary')) {
+            $attributes['order_summary'] = $request->file('order_summary')->store('orders', 'public');
+        }
+
+        Order::create($attributes);
 
         return redirect()->back()->with('success', 'Form submitted successfully.');
     }

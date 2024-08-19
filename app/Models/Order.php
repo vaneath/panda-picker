@@ -15,7 +15,15 @@ class Order extends Model
         'order_status' => OrderStatusEnum::class,
     ];
 
-    protected $fillable = ['order_number','order_status', 'customer_name', 'customer_chat_id', 'customer_phone_number', 'floor'];
+    protected $fillable = [
+        'order_number',
+        'order_status',
+        'order_summary',
+        'customer_name',
+        'customer_chat_id',
+        'customer_phone_number',
+        'floor'
+    ];
 
     public function getCreatedAtAttribute($value)
     {
