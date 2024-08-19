@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('order_number');
             $table->string('customer_name');
             $table->string('customer_phone_number');
+            $table->string('customer_chat_id')->nullable();
             $table->enum('order_status', [
                 OrderStatusEnum::WAITING->value,
                 OrderStatusEnum::PREPARING->value,

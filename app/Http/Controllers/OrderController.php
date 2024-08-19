@@ -17,6 +17,21 @@ class OrderController extends Controller
         return view('orders.create');
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'order_number' => 'required|string|max:255',
+            'customer_name' => 'required|string|max:255',
+            'customer_phone_number' => 'required|string|max:255',
+            'floor' => 'required|integer|min:1|max:50',
+            'customer_chat_id' => 'nullable|string|max:255',
+        ]);
+
+        Order::create($validated);
+
+        return redirect()->back()->with('success', 'Form submitted successfully.');
+    }
+
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
