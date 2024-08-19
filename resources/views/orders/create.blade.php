@@ -11,40 +11,53 @@
                     </div>
                     <div class="divide-y divide-gray-200">
                         <div class="py-8 space-y-4 text-gray-700 text-lg leading-7">
-                            <form method="POST" action="{{ route('orders.store') }}">
+                            <form method="POST" action="{{ route('orders.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mt-4">
-                                    <x-input-label for="order-number" :value="__('Order Number')" />
+                                    <div class="flex space-x-1">
+                                        <x-input-label for="order-number" :value="__('Order Number')" />
+                                        <span class="text-red-600">*</span>
+                                    </div>
                                     <x-text-input id="order-number" class="block mt-1 w-full" type="text"
-                                        name="order_number" required autocomplete="current-order-number" />
+                                        name="order_number" required autocomplete="current-order-number"
+                                        placeholder="#xxxx-xxxx-xxxx" />
                                     <x-input-error :messages="$errors->get('order_number')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
-                                    <x-input-label for="customer-name" :value="__('Your Name')" />
+                                    <div class="flex space-x-1">
+                                        <x-input-label for="customer-name" :value="__('Your Name')" />
+                                        <span class="text-red-600">*</span>
+                                    </div>
                                     <x-text-input id="customer-name" class="block mt-1 w-full" type="text"
                                         name="customer_name" required autocomplete="current-customer-name" />
                                     <x-input-error :messages="$errors->get('customer_name')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
-                                    <x-input-label for="customer-phone-number" :value="__('Phone Number')" />
+                                    <div class="flex space-x-1">
+                                        <x-input-label for="customer-phone-number" :value="__('Phone Number')" />
+                                        <span class="text-red-600">*</span>
+                                    </div>
                                     <x-text-input id="customer-phone-number" class="block mt-1 w-full" type="number"
                                         name="customer_phone_number" required
-                                        autocomplete="current-customer-phone-number" />
+                                        autocomplete="current-customer-phone-number" placeholder="0xx xxx xxx" />
                                     <x-input-error :messages="$errors->get('customer_phone_number')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
-                                    <x-input-label for="floor" :value="__('Floor')" />
+                                    <div class="flex space-x-1">
+                                        <x-input-label for="floor" :value="__('Floor')" />
+                                        <span class="text-red-600">*</span>
+                                    </div>
                                     <x-text-input id="floor" class="block mt-1 w-full" type="number" name="floor"
                                         required autocomplete="current-floor" min="1" max="50" />
                                     <x-input-error :messages="$errors->get('floor')" class="mt-2" />
                                 </div>
 
-                                {{-- <div class="mt-4">
-                                    <x-input-label for="order-summary" :value="__('Order Summary')" />
-                                    <div
+                                <div class="mt-4">
+                                    <x-input-label for="order-summary" :value="__('Order Summary (This is optional but deliver your order faster)')" />
+                                    <div id="file-upload"
                                         class="pt-5 pb-6 mt-1 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                                         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -57,8 +70,9 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
                                             800x400px)</p>
                                     </div>
-                                    <input id="order-summary" type="file" class="hidden" />
-                                </div> --}}
+                                    <input id="order-summary" name="order_summary" type="file" class="hidden" />
+                                    <img id="image-preview" class="w-full h-full object-contain hidden" />
+                                </div>
 
                                 <input type="hidden" name="customer_chat_id"
                                     value="{{ request()->query('chat-id') }}" />
@@ -89,3 +103,26 @@
         </script>
     @endif
 </x-guest-layout>
+
+<script>
+    document.getElementById('file-upload').addEventListener('click', function() {
+        document.getElementById('order-summary').click();
+    });
+
+    document.getElementById('order-summary').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileUploadDiv = document.getElementById('file-upload');
+                fileUploadDiv.innerHTML = ''; // Clear the content inside the file-upload div
+                const img = document.createElement('img');
+                img.id = 'image-preview';
+                img.src = e.target.result;
+                img.classList.add('w-full', 'h-full', 'object-contain');
+                fileUploadDiv.appendChild(img); // Append the image to the file-upload div
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
