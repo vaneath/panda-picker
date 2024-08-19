@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Panda Picker',
             'email' => 'pandapicker@gmail.com',
+            'password' => bcrypt('vpanda@zz'),
         ]);
-
-        Order::factory(20)->create();
     }
 }
