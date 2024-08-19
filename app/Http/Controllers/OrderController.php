@@ -12,6 +12,11 @@ class OrderController extends Controller
         return view('dashboard');
     }
 
+    public function create()
+    {
+        return view('orders.create');
+    }
+
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
