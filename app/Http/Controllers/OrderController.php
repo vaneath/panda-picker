@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
+use App\Enums\OrderStatusEnum;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -41,5 +43,36 @@ class OrderController extends Controller
         $order->update(['order_status' => $request->status]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function notify(Order $order)
+    {
+        $chatId = $order->customer_chat_id;
+        $message = $this->getMessageBasedOnStatus($order);
+
+        $response = Http::post("https://api.telegram.org/bot" . env('BOT_TOKEN') . "/sendMessage", [
+            'chat_id' => $chatId,
+            'text' => $message,
+        ]);
+
+        if ($response->successful()) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false], 500);
+        }
+    }
+
+    private function getMessageBasedOnStatus($order)
+    {
+        $customerName = $order->customer_name;
+        $floor = $order->floor;
+        $orderNumber = $order->order_number;
+
+        return match ($order->order_status) {
+            OrderStatusEnum::WAITING => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' កំពុងស្ថិតក្នុងការរង់ចាំ សូមអរគុណ។',
+            OrderStatusEnum::PREPARING => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' កំពុងតែរៀបចំយកទៅជាន់ទី ' . $floor . ' សូមរង់ចាំទទួល សូមអរគុណ។',
+            OrderStatusEnum::DONE => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' បានមកដល់ជាន់ទី ' . $floor . ' សូមបងអញ្ជើញមកទទួល សូមអរគុណ។',
+            default => '',
+        };
     }
 }
