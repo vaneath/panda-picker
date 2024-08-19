@@ -54,12 +54,7 @@
                     </td>
                     <td class="p-2 whitespace-nowrap">
                         <div class="text-center">
-                            <button
-                                onclick="Swal.fire({ title: 'Notification Sent!', text: 'The customer has been notified', icon: 'success', confirmButtonText: 'OK', confirmButtonColor: '#fa2a80'
-                                })"
-                                class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded">
-                                Notify
-                            </button>
+                            <x-order-notifier-button :order="$order" />
                         </div>
                     </td>
                 </tr>
