@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="py-12">
+    <div class="py-5">
         <div class="relative py-3 max-w-3xl mx-auto">
             <div
                 class="absolute inset-0 bg-gradient-to-r from-pink-400 to-pink-500 shadow-lg transform -skew-y-0 -rotate-6 rounded-3xl">
@@ -63,7 +63,7 @@
                                 <input type="hidden" name="customer_chat_id"
                                     value="{{ request()->query('chat-id') }}" />
 
-                                <div class="mt-4">
+                                <div class="mt-4 text-end">
                                     <x-primary-button class="ml-4">
                                         {{ __('Submit') }}
                                     </x-primary-button>

@@ -8,11 +8,14 @@
     {{-- Less security --}}
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Foodpanda Picker') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    {{-- Tailwind --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Sweetalert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -24,14 +27,14 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 mt-10">
+    <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0">
         <div>
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>
         </div>
 
-        <div class="w-full mt-6 px-6 py-4 overflow-hidden rounded-lg">
+        <div class="w-full px-6 py-4 overflow-hidden rounded-lg">
             {{ $slot }}
         </div>
     </div>
