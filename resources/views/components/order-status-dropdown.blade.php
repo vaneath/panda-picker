@@ -1,12 +1,13 @@
-@props(['order_status'])
+@props(['order'])
 
 <!-- resources/views/components/order-status-dropdown.blade.php -->
 <div x-data="{ status: '{{ $order->order_status }}' }" class="text-center">
     <select x-model="status" @change="updateStatus('{{ $order->id }}', status)"
         class="form-select bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
         @foreach (\App\Enums\OrderStatusEnum::cases() as $status)
-            <option value="{{ $status->value }}" :selected="$order -> order_status === '{{ $status->value }}'">
-                {{ $status->value }}</option>
+            <option value="{{ $status->value }}" {{ $order->order_status === $status->value ? 'selected' : '' }}>
+                {{ $status->value }}
+            </option>
         @endforeach
     </select>
 </div>
