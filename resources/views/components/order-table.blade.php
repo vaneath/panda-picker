@@ -91,9 +91,9 @@
                     </td>
                     <td class="p-2 whitespace-nowrap flex justify-center items-center">
                         @if ($order->order_summary)
-                            <a href="{{ asset('storage/' . $order->order_summary) }}" target="_blank">
-                                <img class="size-24 object-contain"
-                                    src="{{ asset('storage/' . $order->order_summary) }}" alt="Order Summary Image">
+                            <a href="{{ Storage::url($order->order_summary) }}" target="_blank">
+                                <img class="size-24 object-contain" src="{{ Storage::url($order->order_summary) }}"
+                                    alt="Order Summary Image">
                             </a>
                         @else
                             <div class="text-lg text-end mt-1">No image available</div>

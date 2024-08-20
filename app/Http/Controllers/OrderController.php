@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 use App\Enums\OrderStatusEnum;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -34,7 +36,7 @@ class OrderController extends Controller
         ]);
 
         if ($request->hasFile('order_summary')) {
-            $attributes['order_summary'] = $request->file('order_summary')->store('orders', 'public');
+            $attributes['order_summary'] = $request->file('order_summary')->storePublicly('orders');
         }
 
         Order::create($attributes);
@@ -61,6 +63,7 @@ class OrderController extends Controller
         $response = Http::post("https://api.telegram.org/bot" . env('BOT_TOKEN') . "/sendMessage", [
             'chat_id' => $chatId,
             'text' => $message,
+            'parse_mode' => 'HTML',
         ]);
 
         if ($response->successful()) {
@@ -71,16 +74,16 @@ class OrderController extends Controller
     }
 
     private function getMessageBasedOnStatus($order)
-    {
-        $customerName = $order->customer_name;
-        $floor = $order->floor;
-        $orderNumber = $order->order_number;
+{
+    $customerName = $order->customer_name;
+    $floor = $order->floor;
+    $orderNumber = $order->order_number;
 
-        return match ($order->order_status) {
-            OrderStatusEnum::WAITING => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' កំពុងស្ថិតក្នុងការរង់ចាំ សូមអរគុណ។',
-            OrderStatusEnum::PREPARING => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' កំពុងតែរៀបចំយកទៅជាន់ទី ' . $floor . ' សូមរង់ចាំទទួល សូមអរគុណ។',
-            OrderStatusEnum::DONE => 'សួស្ដីបង ' . $customerName . ' ការកម្មង់របស់បងដែលមានលេខសម្គាល់ ' . $orderNumber . ' បានមកដល់ជាន់ទី ' . $floor . ' សូមបងអញ្ជើញមកទទួល សូមអរគុណ។',
-            default => '',
-        };
-    }
+    return match ($order->order_status) {
+        OrderStatusEnum::WAITING => "**<b>ស្ថិតក្នុងការរង់ចាំ</b>** សួស្ដីបង <b>{$customerName}</b> ការកម្មង់របស់បងដែលមានលេខសម្គាល់ <b>{$orderNumber}</b> កំពុងស្ថិតក្នុងការរង់ចាំ សូមអរគុណ។ ⏰",
+        OrderStatusEnum::PREPARING => "**<b>កំពុងរៀបចំយកទៅលើ</b>** សួស្ដីបង <b>{$customerName}</b> ការកម្មង់របស់បងដែលមានលេខសម្គាល់ <b>{$orderNumber}</b> កំពុងតែរៀបចំយកទៅជាន់ទី <b>{$floor}</b> សូមរង់ចាំទទួល សូមអរគុណ។ 🏃",
+        OrderStatusEnum::DONE => "**<b>ការកម្មង់បានមកដល់</b>** សួស្ដីបង <b>{$customerName}</b> ការកម្មង់របស់បងដែលមានលេខសម្គាល់ <b>{$orderNumber}</b> បានមកដល់ជាន់ទី <b>{$floor}</b> សូមបងអញ្ជើញមកទទួល សូមអរគុណ។ 🎉",
+        default => '',
+    };
+}
 }
