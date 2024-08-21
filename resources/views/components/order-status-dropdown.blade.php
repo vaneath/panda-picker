@@ -6,7 +6,7 @@
     getStatusClass() {
         return this.status === 'done' ? 'bg-green-500 text-white' : (this.status === 'preparing' ? 'bg-yellow-500 text-white' : 'bg-gray-500 text-white');
     }
-}" class="text-center">
+}">
     <select x-model="status" @change="updateStatus('{{ $order->id }}', status)" :class="getStatusClass()"
         class="form-select border border-gray-300 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500">
         @foreach (\App\Enums\OrderStatusEnum::cases() as $status)
