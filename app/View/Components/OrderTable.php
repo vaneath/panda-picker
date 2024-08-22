@@ -35,11 +35,11 @@ class OrderTable extends Component
         }
 
         if ($this->search) {
-            $searchTerm = "%{$this->search}%";
+            $searchTerm = strtolower($this->search);
             $query->where(function ($q) use ($searchTerm) {
-                $q->where('customer_name', 'like', $searchTerm)
-                  ->orWhere('order_number', 'like', $searchTerm)
-                  ->orWhere('customer_phone_number', 'like', $searchTerm);
+                $q->whereRaw('LOWER(customer_name) LIKE ?', ["%{$searchTerm}%"])
+                  ->orWhereRaw('LOWER(order_number) LIKE ?', ["%{$searchTerm}%"])
+                  ->orWhereRaw('LOWER(customer_phone_number) LIKE ?', ["%{$searchTerm}%"]);
             });
         }
 
