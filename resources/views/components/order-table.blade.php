@@ -1,4 +1,4 @@
-<div class="w-full min-h-screen space-y-5 overflow-x-scroll">
+<div class="w-full min-h-screen space-y-5 overflow-x-scroll mb-10">
     <table class="table-auto w-full mb-6 hidden sm:inline-table">
         <thead class="text-md font-semibold uppercase text-gray-400 bg-gray-50">
             <tr>
