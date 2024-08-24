@@ -39,7 +39,10 @@ class OrderController extends Controller
             $attributes['order_summary'] = $request->file('order_summary')->storePublicly('orders');
         }
 
-        Order::create($attributes);
+        $order = Order::create($attributes);
+
+        $this->responseSuccessForm($order);
+        $this->sendInstruction($order);
 
         return redirect()->back()->with('success', 'Form submitted successfully.');
     }
@@ -53,6 +56,39 @@ class OrderController extends Controller
         $order->update(['order_status' => $request->status]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function responseSuccessForm(Order $order)
+    {
+        $chatId = $order->customer_chat_id;
+
+        $response = Http::post("https://api.telegram.org/bot" . env('BOT_TOKEN') . "/sendMessage", [
+            'chat_id' => $chatId,
+            'text' => "ការកម្មង់របស់បងមានលេខសម្គាល់ <b>{$order->order_number}</b> បានទទួលជោគជ័យ។ <b>ដើម្បីជាការងាយស្រួលក្នុងការផ្ដល់ដំណឹងជូនអ្នកដឹកជញ្ជូនម្ហូប បងអាច Copy សារខាងក្រោមនេះផ្ញើរទៅអ្នកដឹកជញ្ជូនផ្ទាល់ នៅពេលដែលគាត់មកដល់: </b>",
+            'parse_mode' => 'HTML',
+        ]);
+
+        if ($response->successful()) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false], 500);
+        }
+    }
+
+    public function sendInstruction(Order $order)
+    {
+        $chatId = $order->customer_chat_id;
+
+        $response = Http::post("https://api.telegram.org/bot" . env('BOT_TOKEN') . "/sendMessage", [
+            'chat_id' => $chatId,
+            'text' => "សួស្ដីបង សូមជួយយកម្ហបមកកាន់ពីមុខអគារ GIA Tower នឹងមានអ្នកចាំទទួលនៅខាងមុខនោះ។​ នេះជាលេខទំនាក់ទំនង 092 311 364។",
+        ]);
+
+        if ($response->successful()) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false], 500);
+        }
     }
 
     public function notify(Order $order)
