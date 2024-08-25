@@ -69,6 +69,9 @@
                                         </svg>
                                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                                                 class="font-semibold">Click to upload</span> or drag and drop</p>
+                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                                class="font-semibold">Only JPG, PNG, and GIF are allowed.</span></p>
+
                                         <img id="image-preview" class="w-full h-full object-contain mt-2 hidden" />
                                     </div>
                                     <input id="order-summary" name="order_summary" type="file" class="hidden"
@@ -117,15 +120,14 @@
                                     <div class="mt-2">
                                         <p class="text-sm text-gray-500">Please confirm that the following information
                                             is correct:</p>
-                                        <ul class="mt-3 list-disc list-inside text-sm text-gray-700">
+                                        <ul
+                                            class="flex flex-col items-start px-10 sm:px-0 mt-3 list-disc list-inside text-sm text-start text-gray-700 overflow-x-auto">
                                             <li><strong>Order Number:</strong> <span x-text="order_number"></span></li>
                                             <li><strong>Customer Name:</strong> <span x-text="customer_name"></span>
                                             </li>
                                             <li><strong>Phone Number:</strong> <span
                                                     x-text="customer_phone_number"></span></li>
                                             <li><strong>Floor:</strong> <span x-text="floor"></span></li>
-                                            <li x-show="order_summary"><strong>Order Summary:</strong> <span
-                                                    x-text="order_summary"></span></li>
                                         </ul>
                                     </div>
                                 </div>
