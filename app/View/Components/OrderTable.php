@@ -11,6 +11,7 @@ class OrderTable extends Component
 {
     public $orderStatus;
     public $search;
+    public $orderDate;
     public $sortOrder;
 
     /**
@@ -20,6 +21,7 @@ class OrderTable extends Component
     {
         $this->orderStatus = request()->input('order_status');
         $this->search = request()->input('search');
+        $this->orderDate = request()->input('order_date', now()->toDateString());
         $this->sortOrder = request()->input('sort_order', 'asc'); // Default to ascending order
     }
 
@@ -30,10 +32,15 @@ class OrderTable extends Component
     {
         $query = Order::query();
 
+        // Main filter by order_date
+        $query->whereDate('created_at', $this->orderDate);
+
+        // Apply order_status filter under order_date
         if ($this->orderStatus) {
             $query->where('order_status', $this->orderStatus);
         }
 
+        // Apply search filter under order_date
         if ($this->search) {
             $searchTerm = strtolower($this->search);
             $query->where(function ($q) use ($searchTerm) {
@@ -43,12 +50,15 @@ class OrderTable extends Component
             });
         }
 
+        // Apply sorting
         $orders = $query->orderBy('created_at', $this->sortOrder)->paginate(10);
 
+        // Append query parameters to pagination links
         $orders->appends([
             'order_status' => $this->orderStatus,
             'search' => $this->search,
             'sort_order' => $this->sortOrder,
+            'order_date' => $this->orderDate,
         ]);
 
         return view('components.order-table', compact('orders'));
