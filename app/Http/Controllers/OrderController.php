@@ -83,7 +83,7 @@ class OrderController extends Controller
 
     private function getSuccessMessage(Order $order): string
     {
-        return "ការកម្មង់របស់បងមានលេខសម្គាល់ <b>{$order->order_number}</b> បានទទួលជោគជ័យ។ <b>ដើម្បីជាការងាយស្រួលក្នុងការផ្ដល់ដំណឹងជូនអ្នកដឹកជញ្ជូនម្ហូប បងអាច Copy សារខាងក្រោមនេះផ្ញើរទៅអ្នកដឹកជញ្ជូនផ្ទាល់ នៅពេលដែលគាត់មកដល់: </b>";
+        return "ការកម្មង់របស់បងមានលេខសម្គាល់ <b>{$order->order_number}</b> បានទទួលជោគជ័យ។ ដើម្បីជាការងាយស្រួលក្នុងការផ្ដល់ដំណឹងជូនអ្នកដឹកជញ្ជូនម្ហូប បងអាច <b>Copy</b> សារខាងក្រោមនេះផ្ញើរទៅអ្នកដឹកជញ្ជូនផ្ទាល់ នៅពេលដែលគាត់មកដល់:";
     }
 
     public function sendInstruction(Order $order)
