@@ -88,7 +88,7 @@ class OrderController extends Controller
 
     public function sendInstruction(Order $order)
     {
-        $message = "សួស្ដីបង សូមជួយយកម្ហបមកកាន់ពីមុខអគារ GIA Tower នឹងមានអ្នកចាំទទួលនៅខាងមុខនោះ។​ នេះជាលេខទំនាក់ទំនង 092 311 364។";
+        $message = "សួស្ដីបង សូមជួយយកម្ហបមកកាន់ពីមុខអគារ GIA Tower នឹងមានអ្នកចាំទទួលនៅខាងមុខនោះ។​ នេះជាលេខទំនាក់ទំនង 089 779 611។";
         return $this->notifyTelegram($order, $message);
     }
 

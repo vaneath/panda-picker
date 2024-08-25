@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'name' => 'Panda Picker',
+            'name' => 'Panda ToanChet',
             'email' => 'pandapicker@gmail.com',
             'password' => 'vpanda@zzpicker',
         ]);
