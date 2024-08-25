@@ -7,7 +7,7 @@
             <div class="relative px-10 py-10 bg-white shadow-lg rounded-3xl">
                 <div class="max-w-lg mx-auto">
                     <div>
-                        <h1 class="text-2xl font-semibold">Foodpanda Picker Form</h1>
+                        <h1 class="text-2xl font-semibold">Panda ToanChet Form</h1>
                     </div>
                     <div class="divide-y divide-gray-200">
                         <div class="py-8 space-y-4 text-gray-700 text-lg leading-7">
@@ -16,18 +16,21 @@
                                 @csrf
                                 <div class="mt-4">
                                     <div class="flex space-x-1">
-                                        <x-input-label for="order-number" :value="__('Order Number')" />
+                                        <x-input-label for="order-number" :value="__('Order number')" />
                                         <span class="text-red-600">*</span>
                                     </div>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                        Example: #asjd-9dsf-l8z1
+                                    </p>
                                     <x-text-input id="order-number" class="block mt-1 w-full" type="text"
                                         name="order_number" x-model="order_number" required
-                                        placeholder="#xxxx-xxxx-xxxx" />
+                                        placeholder="Input your 14 digits number from your order" />
                                     <x-input-error :messages="$errors->get('order_number')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
                                     <div class="flex space-x-1">
-                                        <x-input-label for="customer-name" :value="__('Your Name')" />
+                                        <x-input-label for="customer-name" :value="__('Your name')" />
                                         <span class="text-red-600">*</span>
                                     </div>
                                     <x-text-input id="customer-name" class="block mt-1 w-full" type="text"
@@ -37,7 +40,7 @@
 
                                 <div class="mt-4">
                                     <div class="flex space-x-1">
-                                        <x-input-label for="customer-phone-number" :value="__('Phone Number')" />
+                                        <x-input-label for="customer-phone-number" :value="__('Phone number')" />
                                         <span class="text-red-600">*</span>
                                     </div>
                                     <x-text-input id="customer-phone-number" class="block mt-1 w-full" type="number"
@@ -57,7 +60,9 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <x-input-label for="order-summary" :value="__('Order Summary (This is optional but deliver your order faster)')" />
+                                    <x-input-label for="order-summary" :value="__(
+                                        'Order summary (This is optional, but it will help deliver your order faster.)',
+                                    )" />
                                     <div id="file-upload"
                                         class="pt-5 pb-6 mt-1 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
                                         @click="triggerFileInput">

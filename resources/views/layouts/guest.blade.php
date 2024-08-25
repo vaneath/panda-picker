@@ -8,7 +8,7 @@
     {{-- Less security --}}
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
-    <title>{{ config('app.name', 'Foodpanda Picker') }}</title>
+    <title>{{ config('app.name', 'Panda ToanChet') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
