@@ -8,10 +8,10 @@
     <!-- component -->
     <div class="bg-white overflow-hidden w-full grid place-items-center">
         <div class="w-4/5">
-            <form method="GET" action="{{ route('dashboard') }}" class="mb-4">
+            <form method="GET" action="{{ route('dashboard') }}" class="mb-4" id="filterForm">
                 <div class="flex flex-col space-y-3 sm:space-x-3 sm:block">
                     <x-text-input id="order_date" class="form-input shrink" type="date" name="order_date"
-                        placeholder="order_date..." value="{{ request('order_date') }}" />
+                        placeholder="order_date..." value="{{ request('order_date', now()->toDateString()) }}" />
 
                     <select name="order_status"
                         class="form-select bg-white border h-10 border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -23,7 +23,6 @@
                             </option>
                         @endforeach
                     </select>
-
 
                     <select name="sort_order"
                         class="form-select bg-white border h-10 border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -43,4 +42,13 @@
         </div>
         <x-order-table />
     </div>
+
+    <script>
+        document.getElementById('filterForm').addEventListener('submit', function() {
+            const orderDateInput = document.getElementById('order_date');
+            if (!orderDateInput.value) {
+                orderDateInput.value = new Date().toISOString().split('T')[0];
+            }
+        });
+    </script>
 </x-app-layout>
