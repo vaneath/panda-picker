@@ -127,10 +127,10 @@
                                             is correct:</p>
                                         <ul
                                             class="flex flex-col items-start px-10 sm:px-0 mt-3 list-disc list-inside text-sm text-start text-gray-700 overflow-x-auto">
-                                            <li><strong>Order Number:</strong> <span x-text="order_number"></span></li>
-                                            <li><strong>Customer Name:</strong> <span x-text="customer_name"></span>
+                                            <li><strong>Order number:</strong> <span x-text="order_number"></span></li>
+                                            <li><strong>Your name:</strong> <span x-text="customer_name"></span>
                                             </li>
-                                            <li><strong>Phone Number:</strong> <span
+                                            <li><strong>Phone number:</strong> <span
                                                     x-text="customer_phone_number"></span></li>
                                             <li><strong>Floor:</strong> <span x-text="floor"></span></li>
                                         </ul>
